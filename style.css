@@ -512,6 +512,10 @@ p {
   min-height: 100%;
 }
 
+.project-card h2 {
+  overflow-wrap: anywhere;
+}
+
 .project-thumb {
   display: grid;
   place-items: end start;
@@ -897,6 +901,10 @@ p {
   .project-summary {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
+
+  .project-card h2 {
+    font-size: 1.38rem;
+  }
 }
 
 @media (max-width: 760px) {
@@ -907,15 +915,28 @@ p {
   .site-header {
     display: grid;
     align-items: start;
-    gap: 12px;
+    gap: 10px;
+    padding-top: 12px;
+    padding-bottom: 12px;
   }
 
   .nav {
     justify-content: flex-start;
+    gap: 4px;
+    width: 100%;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .nav::-webkit-scrollbar {
+    display: none;
   }
 
   .nav a {
-    padding: 7px 9px;
+    padding: 6px 8px;
+    font-size: 0.88rem;
   }
 
   .hero {
@@ -940,6 +961,44 @@ p {
   .skills-cards,
   .image-gallery {
     grid-template-columns: 1fr;
+  }
+
+  .page {
+    padding-top: 34px;
+    padding-bottom: 56px;
+  }
+
+  .page-heading {
+    margin-bottom: 22px;
+  }
+
+  .page-heading p {
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  .project-card {
+    gap: 6px;
+  }
+
+  .project-card h2 {
+    margin-bottom: 8px;
+    font-size: 1.42rem;
+    line-height: 1.14;
+  }
+
+  .project-card p {
+    margin-bottom: 12px;
+    line-height: 1.52;
+  }
+
+  .project-card .tag {
+    margin-bottom: 8px;
+    font-size: 0.72rem;
+  }
+
+  .project-thumb {
+    aspect-ratio: 16 / 10;
   }
 
   .about-layout,
@@ -982,7 +1041,7 @@ p {
   .info-box,
   .contact-card,
   .cta-section {
-    padding: 20px;
+    padding: 18px;
   }
 
   .hero-panel::before {
@@ -990,7 +1049,12 @@ p {
   }
 
   .project-thumb {
-    margin: -20px -20px 14px;
+    margin: -18px -18px 14px;
+    aspect-ratio: 16 / 9;
+  }
+
+  .project-card h2 {
+    font-size: 1.3rem;
   }
 
   .button {
