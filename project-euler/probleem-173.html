@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Euler probleem 173 | Ali El Yousfi</title>
+  <meta name="description" content="Nederlandse uitleg voor Project Euler probleem 173 over vierkante laminae.">
+  <link rel="stylesheet" href="../style.css">
+  <script src="../assets/code-viewer.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="logo" href="../index.html">Ali El Yousfi</a>
+    <nav class="nav">
+      <a href="../index.html">Start</a>
+      <a href="../projects.html">Projecten</a>
+      <a href="../about.html">Over mij</a>
+      <a href="../blog.html">Blog</a>
+      <a href="../project-euler.html" aria-current="page">Project Euler</a>
+      <a href="../contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main class="page article-page">
+    <article class="article-content article-wide">
+      <a class="back-link" href="../project-euler.html">Terug naar Project Euler</a>
+      <p class="eyebrow">Project Euler</p>
+      <h1>Project Euler probleem 173</h1>
+      <time datetime="2026-06-28">28 juni 2026</time>
+      <p><a href="https://projecteuler.net/problem=173">Bekijk het originele probleem op Project Euler</a></p>
+
+      <p>In dit probleem ga je bepalen hoeveel verschillende vierkante laminae (vierkante randen met een vierkant gat) je kunt vormen met maximaal 1.000.000 tegels.</p>
+      <p>Wat je allereerst kan afleiden uit de screenshot is dat het aantal tegels er in totaal zijn.</p>
+      <p>En dat is gelijk aan a * a - b * b waar dat a gelijk is aan de buitenkant en b gelijk aan de binnenkant.</p>
+
+      <p>Dus je kan deze probleem bruteforcen je moet itereren tussen elke mogelijke antwoord.</p>
+      <p>Het volgende dat je moet weten is tussen welke waarden ga je moeten itereren.</p>
+      <p>Voor de buitenste kant is dat vanaf 3 tot dat 4 * a - 4 kleiner is dan een miljoen.</p>
+      <p>4 * a - 4 komt van het feit dat je Maar 1 buitenste kant hebt en dat indien het over een miljoen gaat het geen nut meer heeft om er randen aan toe te voegen.</p>
+      <p>(4 * a - 4 komt van a * a - (a - 2) * (a - 2))</p>
+      <p>En voor de binnenste kant moet je itereren van a - 2 tot en met 1.</p>
+      <p>Je moet ook opletten dat de buitenste en de binnenste kant dezelfde pariteit hebben (dus ze zijn beiden even of beiden oneven)</p>
+
+      <p>Het code ziet er als volgt uit:</p>
+
+      <script type="text/plain" class="code-viewer language-c" aria-label="C-code vierkante laminae oplossing">
+#include <stdio.h>
+int main() {
+    int max = 1000000;
+    int ans = 0;
+    for(int a = 3; 4 * a - 4 <= max; a++) {
+        for(int b = a - 2; b >= 1; b -= 2) {
+            int tegels = a * a - b * b;
+            if(tegels <= max) {
+                ++ans;
+            } else break;
+
+        }
+    }
+    printf("Antwoord: %d\n", ans);
+    return 0;
+}
+      </script>
+
+      <pre class="formula-box">Antwoord: 1572729
+Uitvoeringstijd: 0.004201 seconden</pre>
+    </article>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2026 Ali El Yousfi. Antwerpen, Belgie.</p>
+  </footer>
+</body>
+</html>
