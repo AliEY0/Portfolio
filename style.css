@@ -629,6 +629,17 @@ p {
   top: 94px;
 }
 
+.profile-photo {
+  display: block;
+  width: min(100%, 220px);
+  aspect-ratio: 1;
+  margin: 0 0 22px;
+  object-fit: cover;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-soft);
+}
+
 .info-box ul,
 .link-list {
   margin: 0;
