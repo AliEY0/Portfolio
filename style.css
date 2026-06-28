@@ -522,6 +522,10 @@ p {
   margin: 44px auto 0;
 }
 
+.about-layout {
+  margin-bottom: 58px;
+}
+
 .project-summary {
   grid-template-columns: repeat(3, minmax(0, 1fr));
   max-width: 960px;
@@ -614,7 +618,7 @@ p {
 .contact-hero {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(260px, 360px);
-  gap: 34px;
+  gap: clamp(34px, 6vw, 72px);
   align-items: start;
 }
 
@@ -629,15 +633,69 @@ p {
   top: 94px;
 }
 
+.about-layout .info-box {
+  align-self: start;
+  padding: 30px;
+}
+
 .profile-photo {
   display: block;
-  width: min(100%, 220px);
-  aspect-ratio: 1;
-  margin: 0 0 22px;
+  width: 168px;
+  height: 168px;
+  min-width: 168px;
+  max-width: 168px;
   object-fit: cover;
+  object-position: center 38%;
+  margin: 0 auto 18px;
+  border: 3px solid #ffffff;
+  border-radius: 50%;
+  box-shadow: var(--shadow);
+}
+
+.contact-heading {
+  display: block;
+  text-align: center;
+  margin-bottom: 24px;
+  padding-bottom: 22px;
+  border-bottom: 1px solid var(--line);
+}
+
+.contact-heading h2 {
+  margin-bottom: 4px;
+  font-size: 1.55rem;
+}
+
+.contact-heading p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.94rem;
+  line-height: 1.35;
+}
+
+.profile-links {
+  display: grid;
+  gap: 10px;
+}
+
+.profile-links span,
+.profile-links a {
+  display: block;
+  padding: 11px 12px;
+  color: var(--muted);
+  background: var(--surface-soft);
   border: 1px solid var(--line);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-soft);
+  border-radius: 7px;
+  font-weight: 700;
+}
+
+.profile-links a {
+  color: var(--accent-dark);
+}
+
+.profile-links a:hover {
+  color: var(--ink);
+  border-color: var(--accent);
+  text-decoration: none;
 }
 
 .info-box ul,
@@ -653,7 +711,7 @@ p {
 .timeline {
   display: grid;
   gap: 18px;
-  max-width: 900px;
+  max-width: none;
 }
 
 .timeline article {
@@ -663,6 +721,11 @@ p {
   border-left: 5px solid var(--accent);
   border-radius: 0 var(--radius) var(--radius) 0;
   box-shadow: var(--shadow-soft);
+}
+
+.timeline article p:last-child,
+.card p:last-child {
+  margin-bottom: 0;
 }
 
 .post-list {
@@ -1050,6 +1113,15 @@ p {
     padding-bottom: 56px;
   }
 
+  .section-block {
+    margin-top: 38px;
+  }
+
+  .about-layout {
+    gap: 24px;
+    margin-bottom: 42px;
+  }
+
   .page-heading {
     margin-bottom: 22px;
   }
@@ -1091,6 +1163,17 @@ p {
   .contact-card,
   .info-box {
     position: static;
+  }
+
+  .about-layout .info-box {
+    padding: 24px;
+  }
+
+  .profile-photo {
+    width: 136px;
+    height: 136px;
+    min-width: 136px;
+    max-width: 136px;
   }
 
   .cta-section,
