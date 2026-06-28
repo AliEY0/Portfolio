@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Euler probleem 3 | Ali El Yousfi</title>
+  <meta name="description" content="Template voor een Nederlandse uitleg van Project Euler probleem 3.">
+  <link rel="stylesheet" href="../style.css">
+  <script src="../assets/code-viewer.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="logo" href="../index.html">Ali El Yousfi</a>
+    <nav class="nav">
+      <a href="../index.html">Start</a>
+      <a href="../projects.html">Projecten</a>
+      <a href="../about.html">Over mij</a>
+      <a href="../blog.html">Blog</a>
+      <a href="../project-euler.html" aria-current="page">Project Euler</a>
+      <a href="../contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main class="page article-page">
+    <article class="article-content article-wide">
+      <a class="back-link" href="../project-euler.html">Terug naar Project Euler</a>
+      <p class="eyebrow">Project Euler</p>
+      <h1>Project Euler probleem 3</h1>
+      <time datetime="2026-06-28">28 juni 2026</time>
+      <p><a href="https://projecteuler.net/problem=3">Bekijk het originele probleem op Project Euler</a></p>
+
+      <p>We moeten in dit probleem de grootste priemfactor vinden van het getal N = 600851475143.</p>
+      <p>Allereerst is elke natuurlijke getal een vermenigvuldiging van priemgetal(len).</p>
+
+      <pre class="formula-box">Bv. 6 =  2 * 3
+    12 = 2 * 2 * 3
+    100 = 2 * 2 * 5 * 5</pre>
+
+      <p>Hoe we dit probleem gaan aanpakken is als volgt</p>
+      <p>We gaan het getal blijven delen door priemgetallen.</p>
+      <p>En de laatste deler zal dan ons antwoord zijn.</p>
+
+      <p>De code ziet er als volgt uit:</p>
+
+      <script type="text/plain" class="code-viewer language-c" aria-label="C-code grootste priemfactor oplossing">
+#include <stdio.h>
+#include <stdint.h>
+
+void oplossing() {
+    uint64_t N = 600851475143;
+    for(int i = 2; i <= N; ++i){
+        if(N % i == 0) {
+            printf("Deler: %d\n", i);
+            while(N % i == 0)
+                N = N / i;
+        }
+    }
+}
+
+int main() {
+    oplossing();
+    return 0;
+}
+      </script>
+
+      <p>Zoals je kan zien heb ik een for loop van 2 tot en met N.</p>
+      <p>En bij elke iteratie ga je controleren of N deelbaar is door i.</p>
+      <p>indien dit het geval is blijf je N blijven delen door i tot het niet meer te delen valt.</p>
+      <p>Op die manier zal je N alleen maar kunnen delen door priemgetallen.</p>
+
+      <pre class="formula-box">Deler: 71
+Deler: 839
+Deler: 1471
+Deler: 6857
+Uitvoeringstijd: 0.000155 seconden</pre>
+
+      <p>Hier kan je zien dat het grootste priemfactor 6857 is en dat het binnen de minuut is uitgevoerd.</p>
+    </article>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2026 Ali El Yousfi. Antwerpen, Belgie.</p>
+  </footer>
+</body>
+</html>

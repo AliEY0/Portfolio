@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Euler probleem 4 | Ali El Yousfi</title>
+  <meta name="description" content="Nederlandse uitleg voor Project Euler probleem 4 over het grootste palindroomproduct.">
+  <link rel="stylesheet" href="../style.css">
+  <script src="../assets/code-viewer.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="logo" href="../index.html">Ali El Yousfi</a>
+    <nav class="nav">
+      <a href="../index.html">Start</a>
+      <a href="../projects.html">Projecten</a>
+      <a href="../about.html">Over mij</a>
+      <a href="../blog.html">Blog</a>
+      <a href="../project-euler.html" aria-current="page">Project Euler</a>
+      <a href="../contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main class="page article-page">
+    <article class="article-content article-wide">
+      <a class="back-link" href="../project-euler.html">Terug naar Project Euler</a>
+      <p class="eyebrow">Project Euler</p>
+      <h1>Project Euler probleem 4</h1>
+      <time datetime="2026-06-28">28 juni 2026</time>
+      <p><a href="https://projecteuler.net/problem=4">Bekijk het originele probleem op Project Euler</a></p>
+
+      <p>We moeten in dit probleem zien wat het grootste palindroom van het product van 3 cijferige getallen.</p>
+      <p>(Een palindroom is in dit geval een nummer dat hetzelfde leest van rechts naar links als van links naar rechts bv. 100001).</p>
+      <p>Dit is meer een implementatie probleem hieronder kunnen jullie mijn code zien:</p>
+
+      <script type="text/plain" class="code-viewer language-c" aria-label="C-code grootste palindroomproduct oplossing">
+#include <stdio.h>
+#define max(a, b) ((a) > (b) ? (a) : (b))
+
+int check_palindroom(int n) {
+    int copy_n = n;
+    int rev = 0;
+    while(copy_n > 0) {
+        rev = rev * 10 + (copy_n % 10);
+        copy_n /= 10;
+    }
+    if(n == rev)
+        return 1;
+    return 0;
+}
+
+int oplossing() {
+    int antwoord = -1;
+    for(int i = 100; i <= 999; i++) {
+        for(int j = 100; j <= 999; j++) {
+            int mult = i *  j;
+            if(check_palindroom(mult)) {
+                antwoord = max(mult, antwoord);
+           }
+        }
+    }
+    return antwoord;
+}
+
+int main() {
+    printf("Oplossing: %d\n", oplossing());
+    return 0;
+}
+      </script>
+
+      <p>Je kan zien dat ik twee for loops heb van 100 tot en met 999.</p>
+
+      <p>Het interessante gedeelte is de "check_palindroom" functie.</p>
+      <p>Daarin ga je checken of je getal een palindroom is.</p>
+      <p>Je maakt daarin een kopie van je originele getal.</p>
+      <p>En met die kopie ga je bepalen hoe je getal er omgedraaid eruit ziet.</p>
+      <p>Pakt bv.</p>
+
+      <pre class="formula-box">(1) Kopie getal = 123456; Laatste getal = 6
+(2) Omgedraaide getal = 6; Kopie getal = 12345;
+(3) Omgedraaide getal = 65; Kopie getal = 1234;
+(3) Omgedraaide getal = 654; Kopie getal = 123;
+.
+.
+.
+(3) Omgedraaide getal = 654321; Kopie getal = 0;</pre>
+
+      <p>Op het einde ga je die omgedraaide getal vergelijken met je originele getal.</p>
+      <p>Met die functie ga je dus elke combinatie controleren welk het grootste palindroom is.</p>
+
+      <pre class="formula-box">Oplossing: 906609
+Uitvoeringstijd: 0.052222 seconden</pre>
+
+      <p>Het antwoord is 906609 en het is binnen de minuut uitgevoerd.</p>
+    </article>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2026 Ali El Yousfi. Antwerpen, Belgie.</p>
+  </footer>
+</body>
+</html>

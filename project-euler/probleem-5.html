@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Euler probleem 5 | Ali El Yousfi</title>
+  <meta name="description" content="Nederlandse uitleg voor Project Euler probleem 5 over het kleinste getal dat deelbaar is door 1 tot en met 20.">
+  <link rel="stylesheet" href="../style.css">
+  <script src="../assets/code-viewer.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="logo" href="../index.html">Ali El Yousfi</a>
+    <nav class="nav">
+      <a href="../index.html">Start</a>
+      <a href="../projects.html">Projecten</a>
+      <a href="../about.html">Over mij</a>
+      <a href="../blog.html">Blog</a>
+      <a href="../project-euler.html" aria-current="page">Project Euler</a>
+      <a href="../contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main class="page article-page">
+    <article class="article-content article-wide">
+      <a class="back-link" href="../project-euler.html">Terug naar Project Euler</a>
+      <p class="eyebrow">Project Euler</p>
+      <h1>Project Euler probleem 5</h1>
+      <time datetime="2026-06-28">28 juni 2026</time>
+      <p><a href="https://projecteuler.net/problem=5">Bekijk het originele probleem op Project Euler</a></p>
+
+      <p>In dit probleem moet je een getal vinden dat deelbaar is door alle natuulijke getallen van 1 tot en met 20.</p>
+      <p>Hoe je dit oplost is eigenlijk steeds de kleinst gemeene veelvoud te vinden tussen elke getal van 1 tot en met 20.</p>
+      <p>Hieronder vind je mijn oplossing.</p>
+
+      <script type="text/plain" class="code-viewer language-c" aria-label="C-code kleinste veelvoud oplossing">
+#include <stdio.h>
+#include <stdint.h>
+
+uint64_t ggd(uint64_t a, uint64_t b) {
+    if (b == 0)
+        return a;
+    return ggd(b, a % b);
+}
+
+uint64_t kgv(uint64_t a, uint64_t b) {
+    return a * b / (ggd(a, b));
+}
+
+uint64_t oplossing(int n) {
+    uint64_t ans = 1;
+    for (uint64_t i = 2; i <= n; i++)
+        ans = kgv(ans, i);
+    return ans;
+}
+
+int main() {
+    printf("Oplossing: %ld\n", oplossing(20));
+    return 0;
+}
+      </script>
+
+      <pre class="formula-box">Oplossing: 232792560
+Uitvoeringstijd: 0.000062 seconden</pre>
+    </article>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2026 Ali El Yousfi. Antwerpen, Belgie.</p>
+  </footer>
+</body>
+</html>

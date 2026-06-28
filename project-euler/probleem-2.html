@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Euler probleem 2 | Ali El Yousfi</title>
+  <meta name="description" content="Template voor een Nederlandse uitleg van Project Euler probleem 2.">
+  <link rel="stylesheet" href="../style.css">
+  <script src="../assets/code-viewer.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="logo" href="../index.html">Ali El Yousfi</a>
+    <nav class="nav">
+      <a href="../index.html">Start</a>
+      <a href="../projects.html">Projecten</a>
+      <a href="../about.html">Over mij</a>
+      <a href="../blog.html">Blog</a>
+      <a href="../project-euler.html" aria-current="page">Project Euler</a>
+      <a href="../contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main class="page article-page">
+    <article class="article-content article-wide">
+      <a class="back-link" href="../project-euler.html">Terug naar Project Euler</a>
+      <p class="eyebrow">Project Euler</p>
+      <h1>Project Euler probleem 2</h1>
+      <time datetime="2026-06-28">28 juni 2026</time>
+      <p><a href="https://projecteuler.net/problem=2">Bekijk het originele probleem op Project Euler</a></p>
+
+      <p>We moeten hier alle even Fibonacci getallen optellen onder de 4 miljoen.</p>
+      <p>De Fibonacci reeks wordt gegeneerd door de vorige twee termen op te tellen waar je start met 0 en 1.</p>
+
+      <pre class="formula-box">		  -------------------------------------------
+		  |					    |
+Fibonacci reeks = | 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89 |
+		  |					    |
+		  -------------------------------------------</pre>
+
+      <p>Het meest gemakkelijke is om het probleem te brute forcen.</p>
+      <p>Dus je gaat heel die reeks genereren onder de 4 miljoen en steeds controleren of een Fibonacci getal even is.</p>
+      <p>De code hiervoor ziet er als volgt uit:</p>
+
+      <script type="text/plain" class="code-viewer language-c" aria-label="C-code Fibonacci oplossing">
+#include <stdio.h>
+
+long oplossing() {
+    long antwoord = 0;
+    int som = 0;
+    int n_1 = 0;
+    int n_2 = 1;
+    while(som < 4000000) {
+        som = n_1 + n_2;
+        if(!(som & 1)) //Bitmask trucje om te zien of een getal even is
+            antwoord = antwoord + som;
+        n_1 = n_2;
+        n_2 = som;
+    }
+    return antwoord;
+}
+
+int main() {
+    printf("Oplossing: %ld\n", oplossing());
+    return 0;
+}
+      </script>
+
+      <p>Oplossing: 4613732</p>
+      <p>Uitvoeringstijd: 0.000053 seconden</p>
+      <p>Je kan zien dat het binnen de minuut is uitgevoerd dus het past de Project Euler acceptatie criteria dit is voor probleem 2 "https://projecteuler.net/problem=2 PE2"</p>
+    </article>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2026 Ali El Yousfi. Antwerpen, Belgie.</p>
+  </footer>
+</body>
+</html>

@@ -4,147 +4,40 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Ali El Yousfi | Portfolio</title>
-  <meta
-    name="description"
-    content="Eenvoudige portfolio pagina van Ali El Yousfi."
-  >
+  <meta name="description" content="Portfolio van Ali El Yousfi, software developer met focus op full-stack webontwikkeling, .NET, Blazor, mobiele ontwikkeling en DevOps.">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="page-shell">
-    <header class="topbar">
-      <a class="brand" href="#home">Ali El Yousfi</a>
-      <nav class="nav">
-        <a href="#about">Over</a>
-        <a href="#work">Project</a>
-        <a href="#contact">Contact</a>
-      </nav>
-    </header>
+  <header class="site-header">
+    <a class="logo" href="index.html">Ali El Yousfi</a>
+    <nav class="nav">
+      <a href="index.html" aria-current="page">Start</a>
+      <a href="projects.html">Projecten</a>
+      <a href="about.html">Over mij</a>
+      <a href="blog.html">Blog</a>
+      <a href="project-euler.html">Project Euler</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
 
-    <main id="home">
-      <section class="hero section">
-        <div class="hero-copy">
-          <p class="eyebrow">Portfolio</p>
-          <h1>Ali El Yousfi</h1>
-          <p class="lead">
-            Ik hou van duidelijke interfaces, nette code en projecten die gewoon
-            goed werken. Deze pagina is bewust eenvoudig gehouden.
-          </p>
-
-          <div class="terminal-card">
-            <div class="terminal-bar">
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-            <p class="prompt">
-              <span class="prompt-sign">></span>
-              <span>Frontend student met ruimte voor echt werk, schoolprojecten en experimenten.</span>
-            </p>
-          </div>
-
-          <div class="hero-actions">
-            <a class="button button-ghost" href="file:///C:/Users/ali_e/Desktop/CV/Nederlands/rendercv_output/Ali_El_Yousfi_CV-D_N.pdf" target="_blank" rel="noreferrer">
-              Open CV
-            </a>
-          </div>
+  <main class="home-main">
+    <section class="hero">
+      <div class="hero-text">
+        <p class="eyebrow">Softwareontwikkelaar</p>
+        <h1>Ali El Yousfi</h1>
+        <p class="hero-intro">Ik ben een software developer die graag full-stack applicaties bouwt: van API's en databases tot interfaces die logisch werken voor gebruikers.</p>
+        <p class="hero-detail">Ik werk het liefst aan projecten waar backend, frontend en deployment goed op elkaar aansluiten. Mijn focus ligt op .NET, Blazor, REST API's, databases en Azure, met aandacht voor code die overzichtelijk blijft en makkelijk verder te bouwen is.</p>
+        <div class="hero-actions">
+          <a class="button" href="projects.html">Bekijk projecten</a>
+          <a class="button button-secondary" href="about.html">Over mij</a>
         </div>
+      </div>
+    </section>
 
-        <aside class="hero-panel" aria-label="Developer visual">
-          <pre class="ascii-art">
-Ali El Yousfi
+  </main>
 
-Frontend
-Student
-
-HTML / CSS / JavaScript
-          </pre>
-          <div class="status-grid">
-            <div>
-              <span class="status-label">Focus</span>
-              <strong>Frontend</strong>
-            </div>
-            <div>
-              <span class="status-label">Vibe</span>
-              <strong>Clean / Minimal</strong>
-            </div>
-            <div>
-              <span class="status-label">Stack</span>
-              <strong>HTML CSS JS</strong>
-            </div>
-          </div>
-        </aside>
-      </section>
-
-      <section class="section split-section" id="about">
-        <div>
-          <p class="section-tag">Over mij</p>
-          <h2>Kort en duidelijk.</h2>
-        </div>
-        <div class="copy-block">
-          <p>
-            Ik wilde geen overdreven portfolio maken. Gewoon een rustige pagina
-            waarop projecten snel kunnen worden bekeken en later makkelijk
-            aangevuld kunnen worden.
-          </p>
-          <p>
-            Daarom is de structuur simpel gebleven: een korte introductie, een
-            groot projectoverzicht en plaats voor contactinformatie.
-          </p>
-        </div>
-      </section>
-
-      <section class="section" id="work">
-        <div class="section-heading">
-          <p class="section-tag">Projecten</p>
-          <h2>Projectoverzicht</h2>
-        </div>
-        <p class="projects-intro">
-          Hier komen projecten in een vaste grid. Zo blijft alles overzichtelijk,
-          ook als er later veel werk bijkomt.
-        </p>
-        <div class="projects-grid" id="projects-grid" aria-label="Project raster"></div>
-      </section>
-
-      <section class="section skills-section">
-        <div class="section-heading">
-          <p class="section-tag">Wat je hier vindt</p>
-          <h2>Geen ruis, wel overzicht</h2>
-        </div>
-        <div class="pill-grid">
-          <span>Schoolprojecten</span>
-          <span>Websites</span>
-          <span>Experimenten</span>
-          <span>Compact design</span>
-          <span>Snelle pagina</span>
-          <span>Makkelijk uitbreidbaar</span>
-        </div>
-      </section>
-
-      <section class="section contact-section" id="contact">
-        <div class="section-heading">
-          <p class="section-tag">Contact</p>
-          <h2>Contact kan hier later bij.</h2>
-        </div>
-        <div class="contact-card">
-          <p>
-            Voor nu is dit vooral de basis. Later kunnen hier je e-mail,
-            LinkedIn of andere links bij komen.
-          </p>
-          <div class="hero-actions">
-            <a class="button button-primary" href="#work">
-              Bekijk projecten
-            </a>
-            <button class="button button-ghost" id="copy-link" type="button">
-              Contact later invullen
-            </button>
-          </div>
-          <p class="microcopy" id="copy-feedback" aria-live="polite"></p>
-        </div>
-      </section>
-    </main>
-  </div>
-
-  <script src="script.js"></script>
+  <footer class="footer">
+    <p>&copy; 2026 Ali El Yousfi. Antwerpen, Belgie.</p>
+  </footer>
 </body>
 </html>

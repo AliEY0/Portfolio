@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Euler probleem 1 | Ali El Yousfi</title>
+  <meta name="description" content="Template voor een Nederlandse uitleg van Project Euler probleem 1.">
+  <link rel="stylesheet" href="../style.css">
+  <script src="../assets/code-viewer.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="logo" href="../index.html">Ali El Yousfi</a>
+    <nav class="nav">
+      <a href="../index.html">Start</a>
+      <a href="../projects.html">Projecten</a>
+      <a href="../about.html">Over mij</a>
+      <a href="../blog.html">Blog</a>
+      <a href="../project-euler.html" aria-current="page">Project Euler</a>
+      <a href="../contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main class="page article-page">
+    <article class="article-content article-wide">
+      <a class="back-link" href="../project-euler.html">Terug naar Project Euler</a>
+      <p class="eyebrow">Project Euler</p>
+      <h1>Project Euler probleem 1</h1>
+      <time datetime="2026-06-28">28 juni 2026</time>
+      <p><a href="https://projecteuler.net/problem=1">Bekijk het originele probleem op Project Euler</a></p>
+
+      <p>We moeten dus de som van alle veelvouden vinden van 3 of 5 onder N waar N = 1000.</p>
+      <p>De eerste aanpak hiervoor zou een brute force algorithme zijn iets als</p>
+
+      <script type="text/plain" class="code-viewer language-c" aria-label="C-code brute force oplossing">
+#include <stdio.h>
+
+int eerste_oplossing() {
+    int som = 0;
+    for(int i = 0; i < 1000; ++i) {
+        if(i % 3 == 0 && i % 5 == 0) {
+            som += i;
+        } else if(i % 3 == 0) {
+            som += i;
+        } else if(i % 5 == 0) {
+            som += i;
+        }
+    }
+    return som;
+}
+
+int main() {
+    printf("Oplossing 1: %d\n", eerste_oplossing());
+    //Oplossing 1: 233168
+    return 0;
+}
+      </script>
+
+      <p>Natuurlijk zal dit wel volstaan aangezien we maar alles onder de 1000 moeten controleren.</p>
+      <p>Maar indien N zeer groot is zal het mogelijks wat langer duren.</p>
+      <p>Dus we moeten we kijken naar een betere aanpak.</p>
+
+      <p>Als je kijkt naar de som van alle veelvouden onder de 1000 van 3</p>
+      <p>Dan is dat gelijk aan (1 * 3) + (2 * 3) + (3 * 3) + …</p>
+      <p>Als je goed kijkt zie je dat je 3 kan afzonderen en dat je het dan als volgt kan noteren 3 * ( 1 + 2 + 3 + … )</p>
+
+      <p>Voor het gedeelte waar je alle natuurlijke getallen van 1 tot en met N moet opsommen namelijk "( 1 + 2 + 3 + … )" bestaat er een formule.</p>
+      <p><a href="https://nl.wikipedia.org/wiki/Somformule_van_Gauss">Meer over de somformule van Gauss</a></p>
+
+      <pre class="formula-box">		 	  -----------------------
+			  |			|
+Som 1 tot en met N =  N = | (N * (N + 1) / 2)	|
+			  |			|
+		 	  -----------------------</pre>
+
+      <p>Het volgende dat je moet weten is wat is N.</p>
+      <p>In dit geval is N gelijk aan hoeveel veelvouden er onder 1000 zijn voor 3 en 5.</p>
+      <p>Voor 3 is dat gelijk aan: x = floor(1000 / 3)</p>
+      <p>Voor 5 is dat gelijk aan: y = floor(1000 / 5)</p>
+
+      <p>dus je kan het als volgt herschijven.</p>
+
+      <pre class="formula-box">	   --------------------------------------------------
+	   |						    |
+Antwoord = | 3 * (x * (x + 1) / 2) + 5 * (y * (y + 1) / 2)  |
+	   |						    |
+	   --------------------------------------------------</pre>
+
+      <p>Je moet ook nog rekening houden met getallen die veelvouden van 3 en 5 zijn want nu tel je ze dubbel op. Dus je gaat dat van "antwoord" moeten aftrekken.</p>
+      <p>Je gaat als eerst de kleinst gemene veelvoud zoeken voor 3 en 5 en dat is gelijk aan 15.</p>
+      <p>Nu moet je het aantal veelvouden van 15 onder de 1000 moeten zoeken</p>
+      <p>En dat is gelijk aan: z = floor(1000 / 15)</p>
+
+      <p>Nu moet je alleen nog je formule aanpassen voor het juiste antwoord</p>
+
+      <pre class="formula-box">	  ------------------------------------------------------------------------------
+	  |						   			       |
+Antwoord = | 3 * (x * (x + 1) / 2) + 5 * (y * (y + 1) / 2)  - 15 * (z  * (z + 1) / 2)  |
+	  |						      			       |
+	  ------------------------------------------------------------------------------</pre>
+
+      <p>Code:</p>
+
+      <script type="text/plain" class="code-viewer language-c" aria-label="C-code formule oplossing">
+#include <stdio.h>
+
+int tweede_oplossing() {
+    const int N = 999;
+    int som = 0;
+
+    int x = N / 3;
+    int y = N / 5;
+    int z = N / 15;
+
+    som = som + 3 * (x * (x + 1) / 2);
+    som = som + 5 * (y * (y + 1) / 2);
+    som = som - 15 * (z * (z + 1) / 2);
+    return som;
+}
+
+int main() {
+    printf("Oplossing 2: %d\n", tweede_oplossing());
+    //Oplossing 1: 233168
+    return 0;
+}
+      </script>
+    </article>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2026 Ali El Yousfi. Antwerpen, Belgie.</p>
+  </footer>
+</body>
+</html>
