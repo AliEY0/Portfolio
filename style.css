@@ -559,11 +559,13 @@ p {
 }
 
 .project-thumb {
+  position: relative;
   display: grid;
   place-items: end start;
   aspect-ratio: 16 / 9;
   margin: -24px -24px 16px;
   padding: 18px;
+  overflow: hidden;
   color: #ffffff;
   background:
     linear-gradient(135deg, rgba(15, 23, 42, 0.06), rgba(255, 255, 255, 0)),
@@ -587,13 +589,16 @@ p {
 
 .project-thumb.image-thumb {
   place-items: center;
+  padding: 0;
   background: #ffffff;
   border-bottom: 1px solid var(--line);
 }
 
 .project-thumb.image-thumb img {
+  display: block;
   width: 100%;
   height: 100%;
+  max-width: none;
   object-fit: cover;
 }
 
