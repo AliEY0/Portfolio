@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Euler probleem 127 | Ali El Yousfi</title>
+  <meta name="description" content="Nederlandse uitleg voor Project Euler probleem 127 over abc-hits, gcd en rad.">
+  <link rel="stylesheet" href="../style.css?v=20260701-no-language-switcher">
+  <script src="../assets/code-viewer.js" defer></script>
+  <script src="../assets/nav-menu.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="logo" href="../index.html">Ali El Yousfi</a>
+    <button class="nav-toggle" type="button" aria-label="Menu openen" aria-expanded="false" aria-controls="site-nav">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <nav class="nav" id="site-nav">
+      <a href="../index.html">Start</a>
+      <a href="../projects.html">Projecten</a>
+      <a href="../about.html">Over mij</a>
+      <a href="../blog.html">Blog</a>
+      <a href="../project-euler.html" aria-current="page">Project Euler</a>
+      <a href="../contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main class="page article-page">
+    <article class="article-content article-wide">
+      <a class="back-link" href="../project-euler.html">Terug naar Project Euler</a>
+      <p class="eyebrow">Project Euler</p>
+      <h1>Project Euler probleem 127</h1>
+      <time datetime="2026-07-01">1 juli 2026</time>
+      <p><a href="https://projecteuler.net/problem=127">Bekijk het originele probleem op Project Euler</a></p>
+
+      <p>Lees eerst de probleemstelling, vertaal het eventueel eerst naar het Nederlands en probeer het.</p>
+      <p>(Al is het een bruteforce algoritme)</p>
+
+      <h2>Probleemstelling kort</h2>
+      <p>Voor een getal n is rad(n) het product van de unieke priemfactoren van n.</p>
+      <p>In dit probleem zoek je abc-hits: triplets (a, b, c) die aan de voorwaarden hieronder voldoen.</p>
+      <p>Uiteindelijk moet je de som berekenen van alle waarden c waarvoor c &lt; 120000.</p>
+
+      <h2>Oplossing</h2>
+
+      <figure class="article-image compact-article-image">
+        <img src="../assets/images/project-euler-127-voorwaarden.png" alt="Vier voorwaarden voor Project Euler probleem 127">
+      </figure>
+
+      <p>Er zijn vier voorwaarden waaraan een triplet zich moet voldoen.</p>
+      <p>De eerste voorwaarde is dat (gcd*) gcd(a, b) = gcd(a, c) = gcd(b, c) = 1.</p>
+      <p>Het allereerste optimalisatie dat je kan verrichten in je programma is in plaats van 3 keer de gcd functie uit te voeren maar 1 keer.</p>
+      <p>Namelijk door het volgende:</p>
+
+      <p>Allereerst kan je dit "gcd(a, b) = gcd(a, c) = gcd(b, c)" herschrijven naar "gcd(a, b) = gcd(a, a + b) = gcd(b, a + b)" omdat in de derde voorwaarde staat dat c = a + b.</p>
+      <p>Wat je opmerkt is dat je in de tweede parameter staat de eerste parameter bij optelt.</p>
+
+      <pre class="formula-box">gcd(a, b) = gcd(a, a + b) = gcd(b, a + b) = 1</pre>
+
+      <p>heel die vergelijking is eigenlijk hetzelfde aan gcd(a, b)</p>
+      <p>omdat stel als je "gcd(a, a + b)" bekijkt dan kan je van twee zaken er van uit gaan:</p>
+      <p>(1) Ofwel heeft a een gemeenschappelijke deler met b &gt; 1 namelijk x.</p>
+      <p>Als dat het geval is maakt het niet veel uit of je a gaat toevoegen aan b want de gemeenschappelijke deler zal daardoor niet veranderen.</p>
+      <p>x zal nog steeds (a + b) kunnen delen.</p>
+
+      <p>(2) Ofwel heeft a geen gemeenschappelijke deler met b &gt; 1 en dan zal de toevoeging van a op de gemeenschappelijke deler niet aanpassen.</p>
+      <p>En is de gcd(a, a + b) steeds gelijk aan 1.</p>
+
+      <p>Dus [gcd(a, b) = gcd(a, c) = gcd(b, c)] = gcd(a, b)</p>
+      <p>Indien je nog meer interesse hebt om te leren over de eigenschappen van de functie gcd kan je deze website raadplegen: <a href="https://www.xiangsun.org/wp-content/uploads/2013/02/Properties-of-gcd.pdf">Properties of gcd</a>.</p>
+
+      <p>De tweede voorwaarde is gelijk aan a &lt; b (dat is belangrijk om de bereik tussen de forloops te bepalen)</p>
+
+      <p>En de laatste voorwaarde is gelijk aan rad(a*b*c) &lt; c</p>
+      <p>De rad functie = het product van de verschillende priemfactoren van een getal.</p>
+      <p>Voor deze oefeningen zal je het opmerken dat je heelvaak de rad opnieuw zal moeten berekenen dus het is handig om hiervoor een array te gebruiken en voor elke getal tussen 1 en N de rad voor dat getal te berekenen.</p>
+      <p>In de code hieronder zie je dat ik een soort van zeef heb gebruikt (zoek sieve of eratosthenes op als je er niet mee bekend mee bent <a href="https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes">Sieve of Eratosthenes</a>).</p>
+      <p>En het laatste dat ik hierover kwijt wil is dat stel als alle drie de getallen hun gcd(a, b, c) == 1 dan is rad(a*b*c) = rad(a) * rad(b) * rad(c).</p>
+      <p>Dit komt van het feit als alle drie geen gemeenschappelijke delers hebben dan zullen hun priemfactoren ook van alle drie verschillen.</p>
+      <p>Dit is handig want dan moet je niet voor zeer hoge getallen hun rad zoeken.</p>
+
+      <p>De code ziet er als volgt uit:</p>
+
+      <script type="text/plain" class="code-viewer language-c" aria-label="C-code abc-hits oplossing">
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+
+#define u64 uint64_t
+#define MAXN 120000
+
+u64 rad[MAXN + 1];
+
+int gcd(int a, int b) {
+    while (b != 0) {
+        int r = a % b;
+        a = b;
+        b = r;
+    }
+    return a;
+}
+
+void bereken_rad() {
+    for (int i = 1; i <= MAXN; i++)
+        rad[i] = 1;
+    for (int p = 2; p <= MAXN; p++) {
+        if (rad[p] == 1) {
+            for (int j = p; j <= MAXN; j += p) {
+                rad[j] *= p;
+            }
+        }
+    }
+}
+
+u64 oplossing(const int N) {
+    u64 C_sum = 0;
+    for(int a = 1; a < N / 2; a++) {
+        int inc = (a % 2 == 1 ? 1 : 2);
+        for(int b = a + 1; a + b < N; b+=inc) {
+            int c = a + b;
+            u64 prod = rad[a] * rad[b] * rad[c];
+            if(prod >= c)
+                continue;
+            if(gcd(rad[a], rad[b]) != 1)
+                continue;
+            //printf("a: %d, b: %d, c: %d\n", a, b, c);
+            C_sum += c;
+
+        }
+    }
+
+    return C_sum;
+}
+int main() {
+    bereken_rad();
+    printf("Oplossing: %ld\n", oplossing(120000));
+    return 0;
+}
+      </script>
+
+      <pre class="formula-box">Oplossing: 18407904
+Uitvoeringstijd: 3.789811 seconden</pre>
+
+      <p>*gcd = ggd grootste gemene deler</p>
+    </article>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2026 Ali El Yousfi. Antwerpen, Belgie.</p>
+  </footer>
+</body>
+</html>
+
