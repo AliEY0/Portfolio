@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Euler probleem 28 | Ali El Yousfi</title>
+  <meta name="description" content="Nederlandse uitleg voor Project Euler probleem 28 over diagonalen in een getallenspiraal.">
+  <link rel="stylesheet" href="../style.css?v=20260628-about-layout-polish">
+  <script src="../assets/code-viewer.js" defer></script>
+  <script src="../assets/nav-menu.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="logo" href="../index.html">Ali El Yousfi</a>
+    <button class="nav-toggle" type="button" aria-label="Menu openen" aria-expanded="false" aria-controls="site-nav">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <nav class="nav" id="site-nav">
+      <a href="../index.html">Start</a>
+      <a href="../projects.html">Projecten</a>
+      <a href="../about.html">Over mij</a>
+      <a href="../blog.html">Blog</a>
+      <a href="../project-euler.html" aria-current="page">Project Euler</a>
+      <a href="../contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main class="page article-page">
+    <article class="article-content article-wide">
+      <a class="back-link" href="../project-euler.html">Terug naar Project Euler</a>
+      <p class="eyebrow">Project Euler</p>
+      <h1>Project Euler probleem 28</h1>
+      <time datetime="2026-07-01">1 juli 2026</time>
+      <p><a href="https://projecteuler.net/problem=28">Bekijk het originele probleem op Project Euler</a></p>
+
+      <p>Hier zou ik eerst het probleem lezen en proberen vooraleer je naar het oplossing kijkt</p>
+
+      <p>Je kan afleiden uit de screenshot dat de rechtsbovenste diagonaal steeds het getal van (de schil * 2 - 1) is in het kwadraat.</p>
+      <p>Je moet alleen de formule vinden voor de resterende spiralen.</p>
+      <p>de volgende diagonaal is rechts van onder.</p>
+      <p>En daarin zie je dat het (de schil * 2 - 1) is in het kwadraat - (2 * het schil waarin je nu in zit - 1)</p>
+      <p>de volgende diagonaal is link van onder.</p>
+      <p>En daarin zie je dat het (de schil * 2 - 1) is in het kwadraat - (4 * het schil waarin je nu in zit - 1)</p>
+      <p>de volgende diagonaal is rechts van onder.</p>
+      <p>En daarin zie je dat het (de schil * 2 - 1) is in het kwadraat - (6 * het schil waarin je nu in zit - 1)</p>
+      <p>Uit al deze formule's kan je 1 algemene formule berekenen namelijk</p>
+
+      <pre class="formula-box">4*x*x - 12*y</pre>
+
+      <p>Waar dat x gelijk is aan de huidige schil * 2 - 1)</p>
+      <p>En waar y gelijk is aan de huidige schil -1</p>
+
+      <p>De code is als volgt:</p>
+
+      <script type="text/plain" class="code-viewer language-c" aria-label="C-code diagonalen in getallenspiraal oplossing">
+#include <stdio.h>
+
+#define u64 uint64_t
+
+u64 oplossing(const int N) {
+    u64 ans = 1;
+    for(u64 i = 2; i <= N / 2 + 1; ++i) {
+        u64 n = 2 * i - 1;
+        ans = ans +  (4 * n * n) - (12 * (i-1));
+    }
+    return ans;
+}
+
+int main() {
+    printf("Oplossing: %ld\n", oplossing(1001));
+    return 0;
+}
+      </script>
+
+      <pre class="formula-box">Oplossing: 669171001
+Uitvoeringstijd: 0.000046 seconden</pre>
+    </article>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2026 Ali El Yousfi. Antwerpen, Belgie.</p>
+  </footer>
+</body>
+</html>
