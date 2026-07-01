@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Euler probleem 7 | Ali El Yousfi</title>
+  <meta name="description" content="Nederlandse uitleg voor Project Euler probleem 7 over het 10.001ste priemgetal.">
+  <link rel="stylesheet" href="../style.css?v=20260628-about-layout-polish">
+  <script src="../assets/code-viewer.js" defer></script>
+  <script src="../assets/nav-menu.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="logo" href="../index.html">Ali El Yousfi</a>
+    <button class="nav-toggle" type="button" aria-label="Menu openen" aria-expanded="false" aria-controls="site-nav">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <nav class="nav" id="site-nav">
+      <a href="../index.html">Start</a>
+      <a href="../projects.html">Projecten</a>
+      <a href="../about.html">Over mij</a>
+      <a href="../blog.html">Blog</a>
+      <a href="../project-euler.html" aria-current="page">Project Euler</a>
+      <a href="../contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main class="page article-page">
+    <article class="article-content article-wide">
+      <a class="back-link" href="../project-euler.html">Terug naar Project Euler</a>
+      <p class="eyebrow">Project Euler</p>
+      <h1>Project Euler probleem 7</h1>
+      <time datetime="2026-07-01">1 juli 2026</time>
+      <p><a href="https://projecteuler.net/problem=7">Bekijk het originele probleem op Project Euler</a></p>
+
+      <p>In deze probleem moet je de 10 001ste priemgetal vinden.</p>
+      <p>Het gemakkelijkste is dat je elke getal controleert of het een priemgetal is.</p>
+      <p>Elke keer dat je een priemgetal vindt hou je bij hoeveel priemgetallen je al hebt verzameld.</p>
+      <p>En als het gelijk is aan 10 001 geef je de laatste gevonden priemgetal terug en dat is dan meteen ook je antwoord.</p>
+      <p>Hieronder kan je de code vinden:</p>
+
+      <script type="text/plain" class="code-viewer language-c" aria-label="C-code 10001ste priemgetal oplossing">
+#include <stdio.h>
+
+int is_prime(int n) {
+    if(n < 2) return 0;
+    if(n == 2) return 1;
+    for(int i = 2; i * i <= n; ++i) {
+        if(n % i == 0)
+            return 0;
+    }
+    return 1;
+}
+
+int find_prime_number(int N) {
+    int prime_ans = 0;
+    int prime_count = 0;
+    int index = 0;
+
+    while(prime_count < 10001) {
+        if(is_prime(index)) {
+            ++prime_count;
+            prime_ans = index;
+        }
+        ++index;
+    }
+    return prime_ans;
+}
+
+int main() {
+    printf("Oplossing: %d\n", find_prime_number(10001));
+    return 0;
+}
+      </script>
+
+      <pre class="formula-box">Oplossing: 104743
+Uitvoeringstijd: 0.007966 seconden</pre>
+
+      <p>Het is onder de seconde uitgevoerd en past daarom de project euler acceptatie criteria.</p>
+    </article>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2026 Ali El Yousfi. Antwerpen, Belgie.</p>
+  </footer>
+</body>
+</html>
