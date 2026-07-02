@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Euler probleem 54 | Ali El Yousfi</title>
+  <meta name="description" content="Nederlandse uitleg voor Project Euler probleem 54 over poker hands.">
+  <link rel="stylesheet" href="../style.css?v=20260701-no-language-switcher">
+  <script src="../assets/code-viewer.js" defer></script>
+  <script src="../assets/nav-menu.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="logo" href="../index.html">Ali El Yousfi</a>
+    <button class="nav-toggle" type="button" aria-label="Menu openen" aria-expanded="false" aria-controls="site-nav">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <nav class="nav" id="site-nav">
+      <a href="../index.html">Start</a>
+      <a href="../projects.html">Projecten</a>
+      <a href="../about.html">Over mij</a>
+      <a href="../blog.html">Blog</a>
+      <a href="../project-euler.html" aria-current="page">Project Euler</a>
+      <a href="../contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main class="page article-page">
+    <article class="article-content article-wide">
+      <a class="back-link" href="../project-euler.html">Terug naar Project Euler</a>
+      <p class="eyebrow">Project Euler</p>
+      <h1>Project Euler probleem 54</h1>
+      <time datetime="2026-07-03">3 juli 2026</time>
+      <p><a href="https://projecteuler.net/problem=54">Bekijk het originele probleem op Project Euler</a></p>
+
+      <h2>Probleemstelling kort</h2>
+      <p>In dit probleem krijg je duizend pokerhanden voor twee spelers. Per regel staan eerst de vijf kaarten van speler 1 en daarna de vijf kaarten van speler 2.</p>
+      <p>Je moet bepalen hoeveel handen speler 1 wint volgens de normale volgorde van pokerhanden.</p>
+
+      <h2>Algoritme</h2>
+      <p>Dit is het probleem dat ik heb opgelost: <a href="https://projecteuler.net/problem=54">https://projecteuler.net/problem=54</a>.</p>
+      <p>Dit is meer een implementatie type probleem dan een wiskundig probleem.</p>
+      <p>Ik raad je eerst aan om het zelf te proberen vooraleer je de oplossing raadpleegt.</p>
+      <p>De code is als volgt:</p>
+
+      <script type="text/plain" class="code-viewer language-c" aria-label="C-code poker hands oplossing">
+#include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef enum HANDS {
+    High_Card = 1,
+    One_Pair = 2,
+    Two_Pairs = 3,
+    Three_of_a_Kind = 4,
+    Straight = 5, 
+    Flush = 6,
+    Full_House = 7,
+    Four_of_a_Kind = 8,
+    Straight_Flush = 9,
+    Royal_Flush = 10
+} HANDS;
+
+int value(char c) {
+    if(c >= '2' && c <= '9')
+        return c - '0';
+    if(c == 'T') return 10;
+    if(c == 'J') return 11;
+    if(c == 'Q') return 12;
+    if(c == 'K') return 13;
+    if(c == 'A') return 14;
+    return 0;
+}
+
+HANDS biggest_hand(char **p1) {
+    char c = p1[0][1]; 
+    int tel= 0;
+    int num = 0;
+    int arr[15] = { 0 };
+    for(int i = 0; i < 5; ++i) {
+        arr[value(p1[i][0])]++;    
+    }
+    int four = 0;
+    int three = 0;
+    int two = 0;
+    for(int i = 0; i < 15; ++i)
+        if(arr[i] == 3)
+            three++;
+        else if(arr[i] == 2)
+            two++;
+        else if(arr[i] == 4)
+            four++;
+    for(int i = 0; i < 5; ++i) {
+        if(p1[i][1] == c) 
+            ++tel;
+    }
+    if(tel == 5 && arr[10] && arr[11] && arr[12] && arr[13] && arr[14])
+        return Royal_Flush;
+    int values[5];
+    for(int i = 0; i < 5; i++) {
+        values[i] = value(p1[i][0]);
+    }
+    for(int i = 0; i < 4; i++) {
+        for(int j = 0; j < 4 - i; j++) {
+            if(values[j] > values[j + 1]) {
+                int temp = values[j];
+                values[j] = values[j + 1];
+                values[j + 1] = temp;
+            }
+        }
+    }   
+    int bigger = 1;
+    for(int i = 1; i < 5; ++i) {
+        int calc = values[i] - values[i - 1];
+        if(calc == 1)
+            ++bigger;
+    }
+    if(tel == 5 && bigger == 5)
+        return Straight_Flush;
+    if(four >= 1)
+        return Four_of_a_Kind;
+    if(three == 1 && two == 1)
+        return Full_House;    
+    if(tel == 5)
+        return Flush;
+    if(bigger == 5)
+        return Straight;
+    if(three > 0)
+        return Three_of_a_Kind;
+    if(two > 1)
+        return Two_Pairs;
+    if(two == 1)
+        return One_Pair;
+    return High_Card;
+
+}
+
+int check_gelijke_score(char **p1, char **p2) {
+    int cnt1[15] = {0};
+    int cnt2[15] = {0};
+    for(int i = 0; i < 5; i++) {
+        cnt1[value(p1[i][0])]++;
+        cnt2[value(p2[i][0])]++;
+    }
+    int score1[5];
+    int score2[5];
+    int idx1 = 0;
+    int idx2 = 0;
+    for(int aantal = 4; aantal >= 2; aantal--) {
+        for(int v = 14; v >= 2; v--) {
+            if(cnt1[v] == aantal)
+                score1[idx1++] = v;
+            if(cnt2[v] == aantal)
+                score2[idx2++] = v;
+        }
+    }
+    for(int v = 14; v >= 2; v--) {
+        if(cnt1[v] == 1)
+            score1[idx1++] = v;
+        if(cnt2[v] == 1)
+            score2[idx2++] = v;
+    }
+    for(int i = 0; i < 5; i++) {
+        if(score1[i] > score2[i])
+            return 1;
+        if(score1[i] < score2[i])
+            return 0;
+    }
+    return 0;
+}
+
+int evaluate(char **p1, char **p2) {
+    HANDS h1 = biggest_hand(p1);
+    HANDS h2 = biggest_hand(p2);
+    printf("Player 1: %d\n", (int)h1);
+    printf("Player 2: %d\n", (int)h2);
+    if((int)h1 > (int)h2)
+        return 1;
+    if((int)h1 < (int)h2)
+        return 0;
+    return check_gelijke_score(p1, p2);
+}
+
+void oplossing(char *path) {
+    FILE *file;
+    file = fopen(path, "r");
+    char buffer[32];
+    int score_p1 = 0;
+    int score_p2 = 0;
+    while(fgets(buffer, 32, file)) {
+        char **p1 = malloc(sizeof(char*) * 5);
+        char **p2 = malloc(sizeof(char*) * 5);
+        for(int i = 0; i < 5; ++i) {
+            p1[i] = malloc(3);
+            p2[i] = malloc(3);
+        }
+        for(int i = 0; i < 5; ++i) {
+            p1[i][0] = buffer[i * 3];
+            p1[i][1] = buffer[i * 3 + 1];
+            p1[i][2] = '\0';
+            //printf("Player 1: %s.\n", p1[i]);
+        }
+        for(int i = 5; i < 10; ++i) {
+            p2[i - 5][0] = buffer[i * 3];
+            p2[i - 5][1] = buffer[i * 3 + 1];
+            p2[i - 5][2] = '\0';
+            //printf("Player 2: %s.\n", p2[i - 5]);
+        }
+        if(evaluate(p1, p2) == 1) {
+            ++score_p1;
+        } else {
+            ++score_p2;
+        }
+        for(int i = 0; i < 5; ++i) {
+            free(p1[i]);
+            free(p2[i]);
+        }
+        
+
+        free(p1);
+        free(p2);
+    }
+    printf("Player 1 heeft %d keren gewonnen\n", score_p1);
+    printf("Player 2 heeft %d keren gewonnen\n", score_p2);
+
+    fclose(file);
+}
+
+
+
+int main() {
+    oplossing("data.txt"); 
+    return 0;
+}
+      </script>
+
+      <pre class="formula-box">Player 1 heeft 376 keren gewonnen
+Player 2 heeft 624 keren gewonnen
+Uitvoeringstijd: 0.008321 seconden</pre>
+    </article>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2026 Ali El Yousfi. Antwerpen, Belgie.</p>
+  </footer>
+</body>
+</html>
