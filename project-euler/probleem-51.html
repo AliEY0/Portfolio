@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Euler probleem 51 | Ali El Yousfi</title>
+  <meta name="description" content="Nederlandse uitleg voor Project Euler probleem 51 over prime digit replacements.">
+  <link rel="stylesheet" href="../style.css?v=20260701-no-language-switcher">
+  <script src="../assets/code-viewer.js" defer></script>
+  <script src="../assets/nav-menu.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="logo" href="../index.html">Ali El Yousfi</a>
+    <button class="nav-toggle" type="button" aria-label="Menu openen" aria-expanded="false" aria-controls="site-nav">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <nav class="nav" id="site-nav">
+      <a href="../index.html">Start</a>
+      <a href="../projects.html">Projecten</a>
+      <a href="../about.html">Over mij</a>
+      <a href="../blog.html">Blog</a>
+      <a href="../project-euler.html" aria-current="page">Project Euler</a>
+      <a href="../contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main class="page article-page">
+    <article class="article-content article-wide">
+      <a class="back-link" href="../project-euler.html">Terug naar Project Euler</a>
+      <p class="eyebrow">Project Euler</p>
+      <h1>Project Euler probleem 51</h1>
+      <time datetime="2026-07-02">2 juli 2026</time>
+      <p><a href="https://projecteuler.net/problem=51">Bekijk het originele probleem op Project Euler</a></p>
+
+      <h2>Probleemstelling kort</h2>
+      <p>In dit probleem zoek je het kleinste priemgetal dat deel uitmaakt van een familie van acht priemgetallen.</p>
+      <p>Die familie ontstaat door op dezelfde posities in het getal cijfers te vervangen door telkens hetzelfde cijfer.</p>
+
+      <h2>Algoritme</h2>
+      <p>Ik heb een brute force algoritme geschreven waar dat je elke getal onder de miljoen gaat controleren of er een getal is dat een family heeft met minstens 8 priemgetallen.</p>
+      <p>Je gaat hierin een kleine bitmask trucje implementeren zodanig je eenvoudig alle posities van je getal kan veranderen op basis van de binaire voorstelling van een getal.</p>
+
+      <p>Voorbeeld:</p>
+      <p>stel als je een getal pakt met een lengte van 123456 die getal heeft een lengte van 6.</p>
+      <p>Een trucje om alle waarde te implementeren is als volgt.</p>
+      <p>Je gaat elke getal tussen [1 (000001) en 63 (111111)] in binaire waarde voorstellen.</p>
+      <p>Bv het getal 41 zijn binaire voorstelling is 101001.</p>
+      <p>Wat je als volgt gaat doen is controleren op welke plaatsen een nul staat en op de plekken waar een 0 staat ga je op al die plekken een getal tussen [0, 9] zetten.</p>
+      <p>En dan ga je voor elke nieuwe gecreëerde controleren of het een priemgetal is.</p>
+      <p>En vanaf je een waarde tegenkomt dat een familie van 8 priemgetallen heeft dan stop je.</p>
+
+      <p>De code is als volgt:</p>
+
+      <script type="text/plain" class="code-viewer language-c" aria-label="C-code prime digit replacements oplossing">
+#include <stdio.h>
+#define max(a, b) ((a) > (b) ? (a) : (b))
+#define MAXN 1000000
+
+int primes[MAXN + 1];
+
+
+void sieve() {
+    for(int i = 0; i < MAXN; ++i) primes[i] = 1;
+    primes[0] = 0;
+    primes[1] = 0;
+
+    for(int i = 2; i * i <= MAXN; ++i) {
+        if(primes[i] == 1) {
+            for(int j = i * i; j <= MAXN; j += i) {
+                primes[j] = 0;
+            }
+        }
+    }
+}
+
+int check_familie(const int len, int n) {
+    int ans = 0;
+    int right_bound = 1;
+    for(int i = 1; i <= len; ++i) right_bound *= 2;
+    for(int i = 1; i < right_bound; ++i) {
+        int BIT[len];
+        for(int j = 0; j < len; ++j) {
+            BIT[j] = 0;
+            BIT[j] = ((i & (1 << j)) ? 1 : 0);
+        }
+        int tel = 0;
+        int NUM[len];
+        int copy_n = n;
+        for(int i = 0; i < len; ++i) NUM[i] = 0;
+        for(int l = 0; copy_n > 0; ++l) {
+            NUM[l] = (copy_n % 10);
+            copy_n /= 10;
+        }
+        int check_digit = -1;
+        int ok = 1;
+        for(int m = 0; m < len; ++m) {
+            if(BIT[m]) {
+                if(check_digit == -1)
+                    check_digit = NUM[m];
+                else if(NUM[m] != check_digit)
+                    ok = 0;
+            }
+        }
+        if(!ok) continue;
+        for(int k = 0; k <= 9; ++k) {
+            int new_num = 0;
+            if(BIT[len - 1] && k == 0)
+                continue;
+            for(int m = len - 1; m >= 0; m--) {
+                if(BIT[m])
+                    new_num = new_num * 10 + k;
+                else
+                    new_num = new_num * 10 + NUM[m];
+            }
+            if(primes[new_num] == 1)
+                ++tel;
+
+            if(tel > 7) {
+            printf("N: %d; NEW_N: %d; BITS: ",n, new_num);
+            for(int m = len - 1; m >= 0; --m) {
+                printf("%d", BIT[m]);
+            }
+            printf("\n");
+
+            }
+        }
+        ans = max(ans, tel);
+    }
+    return ans;
+}
+
+
+int oplossing() {
+    sieve();
+    int tel = 10000;
+    for(int i = 10000; i <= 1000000; ++i) {
+        int len = (i < 100000) ? 5 : 6;
+        if(primes[i] == 1) {
+            int val = check_familie(len, i);
+            if(val > 7) {
+                return i;
+                printf("%d: %d\n", i, val);
+            }
+        }
+    }
+    return -1;
+}
+
+int main() {
+    printf("Oplossing: %d\n", oplossing());
+    return 0;
+}
+      </script>
+
+      <pre class="formula-box">Oplossing: 121313
+Uitvoeringstijd: 0.088596 seconden</pre>
+    </article>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2026 Ali El Yousfi. Antwerpen, Belgie.</p>
+  </footer>
+</body>
+</html>
