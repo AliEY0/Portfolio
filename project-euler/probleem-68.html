@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Euler probleem 68 | Ali El Yousfi</title>
+  <meta name="description" content="Nederlandse uitleg voor Project Euler probleem 68 over de magic 5-gon ring.">
+  <link rel="stylesheet" href="../style.css?v=20260701-no-language-switcher">
+  <script src="../assets/code-viewer.js" defer></script>
+  <script src="../assets/nav-menu.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="logo" href="../index.html">Ali El Yousfi</a>
+    <button class="nav-toggle" type="button" aria-label="Menu openen" aria-expanded="false" aria-controls="site-nav">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <nav class="nav" id="site-nav">
+      <a href="../index.html">Start</a>
+      <a href="../projects.html">Projecten</a>
+      <a href="../about.html">Over mij</a>
+      <a href="../blog.html">Blog</a>
+      <a href="../project-euler.html" aria-current="page">Project Euler</a>
+      <a href="../contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main class="page article-page">
+    <article class="article-content article-wide">
+      <a class="back-link" href="../project-euler.html">Terug naar Project Euler</a>
+      <p class="eyebrow">Project Euler</p>
+      <h1>Project Euler probleem 68</h1>
+      <time datetime="2026-07-04">4 juli 2026</time>
+      <p><a href="https://projecteuler.net/problem=68">Bekijk het originele probleem op Project Euler</a></p>
+
+      <h2>Probleemstelling kort</h2>
+      <p>In dit probleem zoek je de grootste 16-cijferige string voor een magic 5-gon ring met de getallen 1 tot en met 10.</p>
+      <p>Elke lijn van drie nodes moet dezelfde som hebben en de notatie start bij de lijn met de kleinste buitenste node.</p>
+
+      <h2>Aanpak</h2>
+      <p>Hoe ik deze probleem heb aangepakt is als volgt:</p>
+      <p>Ik heb eerst bepaald hoe dat de 5 lijnen bepaald worden</p>
+
+      <figure class="article-image">
+        <img src="../assets/images/project-euler-68-lines.png" alt="Uitwerking van de lijnen voor Project Euler probleem 68">
+      </figure>
+
+      <p>In de screenshot zie je dat ik de binnenste nodes 'b' noem.</p>
+      <p>En de buitenste noem ik 'a'</p>
+      <p>Dan kan je bepalen hoe dat elke lijn wordt bepaald.</p>
+      <p>Eens je dat weet kan je eigenlijk elke mogelijke combinatie genereren.</p>
+
+      <p>De code is als volgt:</p>
+
+      <script type="text/plain" class="code-viewer language-cpp" aria-label="C++ code magic 5-gon ring oplossing">
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <string>
+
+using namespace std;
+
+int main() {
+    std::vector<int> nums = {1,2,3,4,5,6,7,8,9,10};
+    std::string beste = "";
+    do {
+        int a1 = nums[0];
+        int a2 = nums[1];
+        int a3 = nums[2];
+        int a4 = nums[3];
+        int a5 = nums[4];
+        int b1 = nums[5];
+        int b2 = nums[6];
+        int b3 = nums[7];
+        int b4 = nums[8];
+        int b5 = nums[9];
+
+        if(a1 != min(a1, min(a2, min(a3, min(a4, a5))))) {
+            continue;
+        }
+        int lijn1 = a1 + b1 + b2;
+        int lijn2 = a2 + b2 + b3;
+        int lijn3 = a3 + b3 + b4;
+        int lijn4 = a4 + b4 + b5;
+        int lijn5 = a5 + b5 + b1;
+        if(lijn1 == lijn2 && lijn2 == lijn3 && lijn3 == lijn4 && lijn4 == lijn5) {
+            std::string s = to_string(a1) + to_string(b1) + to_string(b2) + to_string(a2) + to_string(b2) + to_string(b3) + to_string(a3) + to_string(b3) + to_string(b4) + to_string(a4) + to_string(b4) +
+                to_string(b5) + to_string(a5) + to_string(b5) + to_string(b1);
+            if(s.length() == 16 && s > beste) {
+                beste = s;
+            }
+        }
+
+    } while(next_permutation(nums.begin(), nums.end()));
+    std::cout << "Oplossing " << beste << endl;
+    return 0;
+}
+      </script>
+
+      <pre class="formula-box">Oplossing: 6531031914842725
+Uitvoeringstijd: 1.052520 seconden</pre>
+    </article>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2026 Ali El Yousfi. Antwerpen, Belgie.</p>
+  </footer>
+</body>
+</html>
