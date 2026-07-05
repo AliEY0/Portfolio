@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Project Euler probleem 100 | Ali El Yousfi</title>
+  <meta name="description" content="Nederlandse uitleg voor Project Euler probleem 100 over blauwe en rode schijven.">
+  <link rel="stylesheet" href="../style.css?v=20260701-no-language-switcher">
+  <script src="../assets/code-viewer.js" defer></script>
+  <script src="../assets/nav-menu.js" defer></script>
+</head>
+<body>
+  <header class="site-header">
+    <a class="logo" href="../index.html">Ali El Yousfi</a>
+    <button class="nav-toggle" type="button" aria-label="Menu openen" aria-expanded="false" aria-controls="site-nav">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <nav class="nav" id="site-nav">
+      <a href="../index.html">Start</a>
+      <a href="../projects.html">Projecten</a>
+      <a href="../about.html">Over mij</a>
+      <a href="../blog.html">Blog</a>
+      <a href="../project-euler.html" aria-current="page">Project Euler</a>
+      <a href="../contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <main class="page article-page">
+    <article class="article-content article-wide">
+      <a class="back-link" href="../project-euler.html">Terug naar Project Euler</a>
+      <p class="eyebrow">Project Euler</p>
+      <h1>Project Euler probleem 100</h1>
+      <time datetime="2026-07-05">5 juli 2026</time>
+      <p><a href="https://projecteuler.net/problem=100">Bekijk het originele probleem op Project Euler</a></p>
+
+      <h2>Probleemstelling kort</h2>
+      <p>In dit probleem heb je een doos met blauwe en rode schijven.</p>
+      <p>Je moet het aantal blauwe schijven vinden waarvoor de kans om twee blauwe schijven na elkaar te trekken exact 1/2 is, met een totaal aantal schijven groter dan 10^12.</p>
+
+      <h2>Aanpak</h2>
+      <p>Voor dit probleem heb ik eerst geprobeerd om het uit te werken.</p>
+
+      <figure class="article-image">
+        <img src="../assets/images/project-euler-100-kansformule.png" alt="Kansformule voor twee blauwe schijven bij Project Euler probleem 100">
+      </figure>
+
+      <figure class="article-image compact-article-image">
+        <img src="../assets/images/project-euler-100-vergelijking.png" alt="Vergelijking na vermenigvuldiging voor Project Euler probleem 100">
+      </figure>
+
+      <figure class="article-image">
+        <img src="../assets/images/project-euler-100-uitwerking.png" alt="Algebraische uitwerking voor Project Euler probleem 100">
+      </figure>
+
+      <p>Ik heb het eerst proberen te bruteforcen volgens de volgende formule uit de derde screenshot:</p>
+
+      <pre class="formula-box">b * (b - 1 - 2 * r) + r * (-r + 1) = 0</pre>
+
+      <p>Het probleem hierbij is dat het enorm lang kan duren, omdat het limiet 10^12 is.</p>
+      <p>Dus het volgende dat ik heb gedaan is enkele correcte waarden genereren om te zien of ik een verband zag in de reeks getallen.</p>
+
+      <figure class="article-image compact-article-image">
+        <img src="../assets/images/project-euler-100-reeks.png" alt="Gegenereerde correcte waarden voor Project Euler probleem 100">
+      </figure>
+
+      <p>Zoals je kan zien in de screenshot hierboven is het volgende rode getal gelijk aan:</p>
+
+      <pre class="formula-box">rood_nieuw = 2 * blauw + rood - 1</pre>
+
+      <p>En het volgende blauwe getal is gelijk aan:</p>
+
+      <pre class="formula-box">blauw_nieuw = 2 * rood_nieuw + blauw</pre>
+
+      <p>Waarbij het allereerste rode getal gelijk is aan 6 en het allereerste blauwe getal gelijk is aan 15.</p>
+
+      <p>De code is als volgt:</p>
+
+      <script type="text/plain" class="code-viewer language-c" aria-label="C-code blauwe schijven oplossing">
+#include <stdio.h>
+#include <inttypes.h>
+#define u64 uint64_t
+
+int main() {
+    u64 red = 6;
+    u64 blue = 15;
+    const u64 LIMIT = 1000000000000;
+    while(red + blue <= LIMIT) {
+        u64 red_next = 2 * blue + red - 1;
+        u64 blue_next = 2 * red_next + blue;
+        red = red_next;
+        blue =  blue_next;
+    }
+    printf("Rood: %ld || Blauw: %ld\n",  red, blue);
+    return 0;
+}
+      </script>
+
+      <pre class="formula-box">Rood: 313506783024 || Blauw: 756872327473
+Uitvoeringstijd: 0.000091 seconden</pre>
+
+      <p>Dus het antwoord op Project Euler probleem 100 is het aantal blauwe schijven:</p>
+
+      <pre class="formula-box">756872327473</pre>
+    </article>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2026 Ali El Yousfi. Antwerpen, Belgie.</p>
+  </footer>
+</body>
+</html>
